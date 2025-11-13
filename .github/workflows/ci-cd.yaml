@@ -19,16 +19,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up JDK
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: '11'
           distribution: 'temurin'
 
       - name: Build project
-        run: echo "TODO: mvn clean install (pendiente de agregar lógica)"
+        run: echo "TODO mvn clean install (pendiente de agregar lógica)"
 
   test:
     name: Run Tests
@@ -36,16 +36,16 @@ jobs:
     needs: build
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up JDK
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: '11'
           distribution: 'temurin'
 
       - name: Run tests
-        run: echo "TODO: mvn test (pendiente de agregar lógica)"
+        run: echo "TODO mvn test (pendiente de agregar lógica)"
 
   deploy:
     name: Deploy (placeholder)
@@ -54,7 +54,7 @@ jobs:
     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/testing'
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Deploy
-        run: echo "TODO: ./deploy.sh (pendiente de agregar lógica)"
+        run: echo "TODO ./deploy.sh (pendiente de agregar lógica)"
