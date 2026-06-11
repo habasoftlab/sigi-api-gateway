@@ -26,6 +26,14 @@ public class SecurityFilter extends ZuulFilter {
 
     @Override
     public boolean shouldFilter() {
+        RequestContext ctx = RequestContext.getCurrentContext();
+        HttpServletRequest request = ctx.getRequest();
+        
+        // Si la petición va dirigida al servicio de autenticación, NO aplicar el filtro de JWT
+        if (request.getRequestURI().contains("/auth/")) {
+            return false; 
+        }
+        
         return true;
     }
 
