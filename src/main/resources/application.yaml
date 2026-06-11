@@ -18,17 +18,23 @@ zuul:
   
   # Definición manual de tus rutas (De la más específica a la más genérica)
   routes:
+  routes:
+    auth-service:
+      path: /auth/**
+      url: http://74.208.192.175:8089
+      strip-prefix: false
+      
     ordenes-service:
       path: /api/ordenes/**
-      url: http://localhost:8082
+      url: http://74.208.192.175:8082
       strip-prefix: false
 
     finanzas-service:
       path: /api/dashboard/**
-      url: http://localhost:8082
+      url: http://74.208.192.175:8082
       strip-prefix: false
 
     personas-service:
       path: /api/**
-      url: http://localhost:8081
+      url: http://74.208.192.175:8081
       strip-prefix: false
