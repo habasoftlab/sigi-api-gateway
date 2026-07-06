@@ -13,11 +13,9 @@ eureka:
 zuul:
   ignored-services: '*'
   
-  # Pasar encabezados sensibles como Authorization si usas JWT (Va a nivel raíz de zuul)
   sensitive-headers: Cookie,Set-Cookie,Authorization
   
-  # Definición manual de tus rutas (De la más específica a la más genérica)
-  routes:
+  # Definición manual
   routes:
     auth-service:
       path: /auth/**
