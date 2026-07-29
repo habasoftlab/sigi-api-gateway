@@ -12,27 +12,46 @@ eureka:
 
 zuul:
   ignored-services: '*'
+  # Add Authorization if needed
+  sensitive-headers: Cookie,Set-Cookie
   
-  sensitive-headers: Cookie,Set-Cookie,Authorization
-  
-  # Definición manual
   routes:
     auth-service:
       path: /auth/**
-      url: http://74.208.192.175:8089
+      url: http://host.docker.internal:8089
       strip-prefix: false
       
     ordenes-service:
       path: /api/ordenes/**
-      url: http://74.208.192.175:8082
+      url: http://host.docker.internal:8082
       strip-prefix: false
 
     finanzas-service:
       path: /api/dashboard/**
-      url: http://74.208.192.175:8082
+      url: http://host.docker.internal:8082
+      strip-prefix: false
+
+    compras-service:
+      path: /api/compras/**
+      url: http://host.docker.internal:8082
+      strip-prefix: false
+
+    operaciones-service:
+      path: /api/operaciones/**
+      url: http://host.docker.internal:8082
+      strip-prefix: false
+
+    productos-service:
+      path: /api/productos/**
+      url: http://host.docker.internal:8082
+      strip-prefix: false
+
+    imagenes.service:
+      path: /api/uploads/**
+      url: http://host.docker.internal:8082
       strip-prefix: false
 
     personas-service:
       path: /api/**
-      url: http://74.208.192.175:8081
+      url: http://host.docker.internal:8081
       strip-prefix: false
