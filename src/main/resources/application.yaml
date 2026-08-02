@@ -46,8 +46,8 @@ zuul:
       url: http://host.docker.internal:8082
       strip-prefix: false
 
-    imagenes.service:
-      path: /api/uploads/**
+    imagenes-service:
+      path: /uploads/**
       url: http://host.docker.internal:8082
       strip-prefix: false
 
