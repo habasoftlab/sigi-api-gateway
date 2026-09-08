@@ -15,10 +15,15 @@ zuul:
   # Add Authorization if needed
   sensitive-headers: Cookie,Set-Cookie
   
-  routes:
+  routes:  
     auth-service:
       path: /auth/**
       url: http://host.docker.internal:8089
+      strip-prefix: false
+
+    notificaciones-service:
+      path: /api/notificaciones/**
+      url: http://host.docker.internal:8082 
       strip-prefix: false
       
     ordenes-service:
