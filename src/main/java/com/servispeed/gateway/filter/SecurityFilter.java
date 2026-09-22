@@ -29,7 +29,7 @@ public class SecurityFilter extends ZuulFilter {
         RequestContext ctx = RequestContext.getCurrentContext();
         HttpServletRequest request = ctx.getRequest();
         
-        // Si la petición va dirigida al servicio de autenticación, NO aplicar el filtro de JWT
+        // Si la petición va dirigida al servicio de autenticación, NO aplica el filtro de JWT
         if (request.getRequestURI().contains("/auth/")) {
             return false; 
         }
@@ -44,25 +44,22 @@ public class SecurityFilter extends ZuulFilter {
 
         String authHeader = request.getHeader("Authorization");
 
-        // 1. Verificar que el encabezado Authorization exista y empiece con "Bearer "
+        // Verifica que el encabezado Authorization exista y empiece con "Bearer "
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             rejectRequest(ctx, "Token JWT ausente o formato inválido.");
             return null;
         }
 
-        // 2. Extraer el string puro del token (quitando "Bearer ")
+        // Extraer el string puro del token 
         String token = authHeader.substring(7);
 
         try {
-            // 3. Validar la firma y expirar el token
-            // Si la firma es falsa o el token expiró, esto lanzará una excepción automáticamente
+            // Validar la firma y expirar el token
             Claims claims = Jwts.parser()
                     .setSigningKey(JWT_SECRET.getBytes())
                     .parseClaimsJws(token)
                     .getBody();
 
-            // Opcional: Puedes extraer información del usuario (como el id o rol) 
-            // y pasarla hacia los microservicios mediante headers internos
             String username = claims.getSubject();
             ctx.addZuulRequestHeader("X-User-Username", username);
             
