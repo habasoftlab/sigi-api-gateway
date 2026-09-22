@@ -15,9 +15,9 @@ public class CorsFilterConfiguration {
         final CorsConfiguration config = new CorsConfiguration();
         
         config.setAllowCredentials(true);
-        config.addAllowedOrigin("*"); // En producción cambia el "*" por la URL de tu frontend
-        config.addAllowedHeader("*"); // Permitir todos los headers (Content-Type, Authorization, etc.)
-        config.addAllowedMethod("*"); // Permitir GET, POST, PUT, DELETE, etc.
+        config.addAllowedOrigin("*"); 
+        config.addAllowedHeader("*"); 
+        config.addAllowedMethod("*"); 
         
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
