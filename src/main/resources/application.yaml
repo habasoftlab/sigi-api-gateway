@@ -60,3 +60,6 @@ zuul:
       path: /api/**
       url: http://host.docker.internal:8081
       strip-prefix: false
+
+jwt:
+  secret: ${JWT_SECRET:Rz/0bjufMPmSHYIxfNABdTgVvLyIcgIvkhH8Y3L37yM=}
