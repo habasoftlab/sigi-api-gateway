@@ -9,10 +9,14 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import org.springframework.http.HttpStatus;
 import javax.servlet.http.HttpServletRequest;
+import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Value;
 
+@Component
 public class SecurityFilter extends ZuulFilter {
 
-    private final String JWT_SECRET = "Rz/0bjufMPmSHYIxfNABdTgVvLyIcgIvkhH8Y3L37yM=";
+    @Value("${jwt.secret}")
+    private String jwtSecret;
 
     @Override
     public String filterType() {
@@ -30,11 +34,7 @@ public class SecurityFilter extends ZuulFilter {
         HttpServletRequest request = ctx.getRequest();
         
         // Si la petición va dirigida al servicio de autenticación, NO aplica el filtro de JWT
-        if (request.getRequestURI().contains("/auth/")) {
-            return false; 
-        }
-        
-        return true;
+        return !request.getRequestURI().contains("/auth/");
     }
 
     @Override
@@ -47,7 +47,7 @@ public class SecurityFilter extends ZuulFilter {
         // Verifica que el encabezado Authorization exista y empiece con "Bearer "
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             rejectRequest(ctx, "Token JWT ausente o formato inválido.");
-            return null;
+            return Boolean.FALSE;
         }
 
         // Extraer el string puro del token 
@@ -56,13 +56,16 @@ public class SecurityFilter extends ZuulFilter {
         try {
             // Validar la firma y expirar el token
             Claims claims = Jwts.parser()
-                    .setSigningKey(JWT_SECRET.getBytes())
+                    .setSigningKey(jwtSecret.getBytes())
                     .parseClaimsJws(token)
                     .getBody();
 
             String username = claims.getSubject();
             ctx.addZuulRequestHeader("X-User-Username", username);
-            
+
+            // Éxito: retorna TRUE para diferir del flujo de error
+            return Boolean.TRUE;
+
         } catch (SignatureException e) {
             rejectRequest(ctx, "La firma del token no es válida.");
         } catch (ExpiredJwtException e) {
@@ -71,7 +74,8 @@ public class SecurityFilter extends ZuulFilter {
             rejectRequest(ctx, "Token JWT mal formado.");
         }
 
-        return null;
+        // Fallo en validación: retorna FALSE
+        return Boolean.FALSE;
     }
 
     // Método auxiliar para detener la petición en seco si algo sale mal
