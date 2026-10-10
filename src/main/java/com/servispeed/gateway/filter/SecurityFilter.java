@@ -63,6 +63,11 @@ public class SecurityFilter extends ZuulFilter {
             String username = claims.getSubject();
             ctx.addZuulRequestHeader("X-User-Username", username);
 
+            Object userId = claims.get("id");
+            if (userId != null) {
+                ctx.addZuulRequestHeader("X-User-Id", userId.toString());
+            }
+
             // Éxito: retorna TRUE para diferir del flujo de error
             return Boolean.TRUE;
 
