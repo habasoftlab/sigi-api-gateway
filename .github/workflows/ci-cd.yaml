@@ -59,12 +59,12 @@ jobs:
       - name: Construir y Levantar Docker (Producción)
         if: github.ref == 'refs/heads/main'
         run: |
-          docker build -t ${{ github.event.repository.name }}:latest .
-          docker-compose -f docker-compose.prod.yaml up -d --build api-gateway
+          docker build -t sigi-${{ github.event.repository.name }}:latest .
+          docker compose -f docker-compose.prod.yaml up -d --build api-gateway
           docker system prune -f
 
       - name: Construir y Levantar Docker (Testing)
         if: github.ref == 'refs/heads/testing'
         run: |
-          docker build -t ${{ github.event.repository.name }}:test .
-          docker-compose -f docker-compose.test.yaml up -d --build api-gateway
+          docker build -t sigi-${{ github.event.repository.name }}:test .
+          docker compose -f docker-compose.test.yaml up -d --build api-gateway
